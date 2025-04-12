@@ -39,7 +39,6 @@ android {
         compose = true
     }
 
-
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
@@ -74,6 +73,7 @@ dependencies {
     implementation(libs.bundles.compose.runtime)
 
     implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.navigation.compose)
 
     // Testing
     testImplementation(libs.junit)
