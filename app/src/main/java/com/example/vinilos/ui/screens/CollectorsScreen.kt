@@ -10,11 +10,11 @@ import com.example.vinilos.ui.components.common.AppScaffold
 import com.example.vinilos.ui.components.common.NavigationTab
 
 @Composable
-fun ArtistsScreen(
+fun CollectorsScreen(
     onNavigateToTab: (NavigationTab) -> Unit
 ) {
     AppScaffold(
-        selectedTab = NavigationTab.ARTISTS,
+        selectedTab = NavigationTab.COLLECTORS,
         onTabSelected = onNavigateToTab,
         onAddClick = { }
     ) {
@@ -22,7 +22,7 @@ fun ArtistsScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("Pantalla de Artistas - Próximamente")
+            Text("Pantalla de Coleccionistas - Próximamente")
         }
     }
 }
