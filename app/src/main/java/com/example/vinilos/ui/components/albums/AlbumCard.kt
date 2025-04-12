@@ -67,7 +67,6 @@ fun AlbumCard(
                     .background(getAlbumColor(album.id).copy(alpha = 0.7f))
             )
 
-            // Información del álbum
             Column(
                 modifier = Modifier
                     .align(Alignment.Center)

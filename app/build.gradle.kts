@@ -73,6 +73,8 @@ dependencies {
     // Compose runtime
     implementation(libs.bundles.compose.runtime)
 
+    implementation(libs.androidx.core.splashscreen)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
