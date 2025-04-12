@@ -30,7 +30,6 @@ VinylWave es una aplicación móvil para Android que permite explorar y gestiona
 git clone https://github.com/usuario/misw4203-2025-12-ing-software-para-moviles.git
 cd misw4203-2025-12-ing-software-para-moviles
 
-
 ## ⚙️ Configuración del servidor backend
 
 La aplicación consume una API REST que debe estar en ejecución en http://10.0.2.2:3000/ (localhost para el emulador Android).
@@ -41,15 +40,18 @@ Para configurar el backend:
 
 ```bash
 git clone https://github.com/MISW-4203-2023/BackVynils.git
+```
 
 2. Instala las dependencias:
 
 ```bash
 npm install
+```
 
 3. Inicia el servidor:
 ```bash
 npm run start
+```
 
 El backend utiliza PostgreSQL como base de datos. Asegúrate de tener configurado PostgreSQL con:
 
