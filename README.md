@@ -17,10 +17,12 @@ VinylWave es una aplicación móvil para Android que permite explorar y gestiona
 
 ## 🛠️ Requisitos del sistema
 
-- Android Studio Arctic Fox (2020.3.1) o superior
-- JDK 11 o superior
-- Android SDK con nivel API mínimo 24 (Android 7.0)
-- Emulador Android o dispositivo físico con Android 7.0+
+- Android Studio con soporte para Compose
+- JDK 11
+- Android SDK:
+  - Nivel API mínimo: 21 (Android 5.0 Lollipop)
+  - Nivel API objetivo: 35
+- Emulador Android o dispositivo físico con Android 5.0+
 
 ## 🚀 Instalación
 
@@ -68,6 +70,13 @@ El backend utiliza PostgreSQL como base de datos. Asegúrate de tener configurad
 
 ## 🧪 Ejecución de pruebas
 
+## 💻 Tecnologías utilizadas
+
+- Jetpack Compose: Framework moderno para UI declarativa
+- Retrofit: Cliente HTTP para consumo de APIs
+- Coil: Carga de imágenes asíncrona
+- Kotlin: Lenguaje de programación
+  
 ## 🏗️ Arquitectura
 
 La aplicación sigue una arquitectura MVVM (Model-View-ViewModel) e implementa los siguientes patrones:
