@@ -78,6 +78,7 @@ La aplicación sigue una arquitectura MVVM (Model-View-ViewModel) e implementa l
 
 ## 📁 Estructura del proyecto
 
+```plaintext
 com.example.vinilos/
 ├── models/             # Modelos de datos
 ├── network/            # Configuración de red y API
@@ -86,3 +87,4 @@ com.example.vinilos/
 ├── ui/                 # Componentes de UI (Jetpack Compose)
 ├── utils/              # Utilidades
 └── viewmodels/         # ViewModels (MVVM)
+```
