@@ -70,6 +70,9 @@ El backend utiliza PostgreSQL como base de datos. Asegúrate de tener configurad
 
 ## 🧪 Ejecución de pruebas
 
+Para el caso de las pruebas realizadas con Espresso, se puede ejecutar haciendo uso de la interfaz de android studio haciendo clic en las botones de ejecición ▶️ mostrados en la siguiente imagen:
+![image](https://github.com/user-attachments/assets/44411700-5083-4001-9604-c80871aaf9b5)
+
 ## 💻 Tecnologías utilizadas
 
 - Jetpack Compose: Framework moderno para UI declarativa
