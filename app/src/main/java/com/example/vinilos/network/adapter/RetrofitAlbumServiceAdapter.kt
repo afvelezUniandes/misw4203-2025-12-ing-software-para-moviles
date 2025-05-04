@@ -1,7 +1,6 @@
 package com.example.vinilos.network.adapter
 
 import com.example.vinilos.models.Album
-import com.example.vinilos.models.Track
 import com.example.vinilos.network.ApiService
 import com.example.vinilos.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers

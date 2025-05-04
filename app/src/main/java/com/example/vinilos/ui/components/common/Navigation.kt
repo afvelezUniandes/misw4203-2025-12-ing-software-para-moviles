@@ -1,4 +1,4 @@
-package com.example.vinilos.ui.navigation
+package com.example.vinilos.ui.components.common
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -8,8 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.vinilos.network.RetrofitInstance
 import com.example.vinilos.repositories.AlbumRepository
-import com.example.vinilos.ui.components.common.NavigationTab
+import com.example.vinilos.repositories.ArtistRepository
 import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.AlbumsScreen
 import com.example.vinilos.ui.screens.ArtistsScreen
@@ -17,6 +18,8 @@ import com.example.vinilos.ui.screens.CollectorsScreen
 import com.example.vinilos.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.viewmodels.AlbumViewModel
 import com.example.vinilos.viewmodels.AlbumDetailViewModelFactory
+import com.example.vinilos.viewmodels.ArtistViewModel
+import com.example.vinilos.viewmodels.ArtistViewModelFactory
 
 sealed class Screen(val route: String) {
     object Albums : Screen("albums")
@@ -68,9 +71,15 @@ fun AppNavigation() {
         }
 
         composable(Screen.Artists.route) {
+            val viewModel: ArtistViewModel = viewModel(
+                factory = ArtistViewModelFactory(ArtistRepository(RetrofitInstance.apiService))
+            )
             ArtistsScreen(
+                viewModel = viewModel,
                 onNavigateToTab = { tab ->
                     navigateToTab(navController, tab)
+                },
+                onArtistClick = { artist ->
                 }
             )
         }
