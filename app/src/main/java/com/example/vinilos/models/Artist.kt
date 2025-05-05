@@ -8,5 +8,6 @@ data class Artist(
     val date: String,
     val dateType: String,
     val type: String,
-    val albums: List<Album> = emptyList()
+    val albums: List<Album> = emptyList(),
+    val performerPrizes: List<PerformerPrize> = emptyList()
 )
