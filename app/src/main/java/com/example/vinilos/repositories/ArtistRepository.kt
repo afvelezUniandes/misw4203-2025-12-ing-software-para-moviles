@@ -1,37 +1,15 @@
 package com.example.vinilos.repositories
 
 import com.example.vinilos.models.Artist
-import com.example.vinilos.models.Band
-import com.example.vinilos.models.Musician
-import com.example.vinilos.network.ApiService
+import com.example.vinilos.network.adapter.ArtistServiceAdapter
+import com.example.vinilos.network.adapter.RetrofitArtistServiceAdapter
 
-class ArtistRepository(private val apiService: ApiService) {
+class ArtistRepository(
+    private val serviceAdapter: ArtistServiceAdapter = RetrofitArtistServiceAdapter()
+) {
+    suspend fun getMusicians() = serviceAdapter.getMusicians()
 
-    suspend fun getMusicians(): Result<List<Musician>> {
-        return try {
-            val response = apiService.getMusicians()
-            if (response.isSuccessful) {
-                Result.success(response.body() ?: emptyList())
-            } else {
-                Result.failure(Exception("Error: ${response.code()}"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
-
-    suspend fun getBands(): Result<List<Band>> {
-        return try {
-            val response = apiService.getBands()
-            if (response.isSuccessful) {
-                Result.success(response.body() ?: emptyList())
-            } else {
-                Result.failure(Exception("Error: ${response.code()}"))
-            }
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
-    }
+    suspend fun getBands() = serviceAdapter.getBands()
 
     suspend fun getAllArtists(): Result<List<Artist>> {
         val musicians = getMusicians()
@@ -70,4 +48,3 @@ class ArtistRepository(private val apiService: ApiService) {
         return Result.success(artistList)
     }
 }
-

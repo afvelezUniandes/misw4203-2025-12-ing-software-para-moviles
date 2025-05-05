@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.example.vinilos.network.RetrofitInstance
 import com.example.vinilos.repositories.AlbumRepository
 import com.example.vinilos.repositories.ArtistRepository
+import com.example.vinilos.repositories.CollectorRepository
 import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.AlbumsScreen
 import com.example.vinilos.ui.screens.ArtistDetailScreen
@@ -23,6 +24,8 @@ import com.example.vinilos.viewmodels.ArtistDetailViewModel
 import com.example.vinilos.viewmodels.ArtistDetailViewModelFactory
 import com.example.vinilos.viewmodels.ArtistViewModel
 import com.example.vinilos.viewmodels.ArtistViewModelFactory
+import com.example.vinilos.viewmodels.CollectorViewModel
+import com.example.vinilos.viewmodels.CollectorViewModelFactory
 
 sealed class Screen(val route: String) {
     object Albums : Screen("albums")
@@ -34,6 +37,10 @@ sealed class Screen(val route: String) {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
     }
     object Collectors : Screen("collectors")
+    object CollectorDetail : Screen("collector_detail/{collectorId}") {
+        fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
+    }
+
 }
 
 @Composable
@@ -78,7 +85,7 @@ fun AppNavigation() {
 
         composable(Screen.Artists.route) {
             val viewModel: ArtistViewModel = viewModel(
-                factory = ArtistViewModelFactory(ArtistRepository(RetrofitInstance.apiService))
+                factory = ArtistViewModelFactory(ArtistRepository())
             )
             ArtistsScreen(
                 viewModel = viewModel,
@@ -97,7 +104,7 @@ fun AppNavigation() {
         ) { backStackEntry ->
             val artistId = backStackEntry.arguments?.getInt("artistId") ?: return@composable
             val artistDetailViewModel: ArtistDetailViewModel = viewModel(
-                factory = ArtistDetailViewModelFactory(ArtistRepository(RetrofitInstance.apiService))
+                factory = ArtistDetailViewModelFactory(ArtistRepository())
             )
 
             ArtistDetailScreen(
@@ -108,12 +115,20 @@ fun AppNavigation() {
         }
 
         composable(Screen.Collectors.route) {
+            val viewModel: CollectorViewModel = viewModel(
+                factory = CollectorViewModelFactory(CollectorRepository())
+            )
+
             CollectorsScreen(
+                viewModel = viewModel,
                 onNavigateToTab = { tab ->
                     navigateToTab(navController, tab)
+                },
+                onCollectorClick = { collector ->
                 }
             )
         }
+
     }
 }
 
