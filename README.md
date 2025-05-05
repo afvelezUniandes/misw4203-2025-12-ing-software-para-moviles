@@ -14,6 +14,9 @@ VinylWave es una aplicación móvil para Android que permite explorar y gestiona
 ## ✨ Características
 - 📋 Visualización de lista de álbumes
 - 📊 Detalles de cada álbum
+- 📋 Visualización de lista de artistas
+- 📊 Detalles de cada artista 
+- 📋 Visualización de lista de coleccionistas
 
 ## 🛠️ Requisitos del sistema
 
