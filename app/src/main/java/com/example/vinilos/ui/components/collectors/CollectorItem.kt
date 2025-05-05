@@ -76,10 +76,13 @@ fun CollectorItem(
                 Spacer(modifier = Modifier.height(2.dp))
 
                 val albumCount = collector.collectorAlbums.size
+                val albumText = if (albumCount == 1) "1 álbum" else "$albumCount álbumes"
+
                 val artistCount = collector.favoritePerformers.size
+                val artistText = if (artistCount == 1) "1 artista favorito" else "$artistCount artistas favoritos"
 
                 Text(
-                    text = "$albumCount álbumes · $artistCount artistas favoritos",
+                    text = "$albumText · $artistText",
                     style = MaterialTheme.typography.bodyMedium,
                     color = CoveDarkBlue
                 )
