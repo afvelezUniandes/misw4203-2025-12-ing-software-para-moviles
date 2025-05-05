@@ -48,7 +48,8 @@ class ArtistRepository(private val apiService: ApiService) {
                 date = musician.birthDate,
                 dateType = "Birth",
                 type = "Musician",
-                albums = musician.albums
+                albums = musician.albums,
+                performerPrizes = musician.performerPrizes
             ))
         }
 
@@ -61,7 +62,8 @@ class ArtistRepository(private val apiService: ApiService) {
                 date = band.creationDate,
                 dateType = "Formation",
                 type = "Band",
-                albums = band.albums
+                albums = band.albums,
+                performerPrizes = band.performerPrizes
             ))
         }
 

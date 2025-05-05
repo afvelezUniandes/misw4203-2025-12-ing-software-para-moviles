@@ -13,11 +13,14 @@ import com.example.vinilos.repositories.AlbumRepository
 import com.example.vinilos.repositories.ArtistRepository
 import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.AlbumsScreen
+import com.example.vinilos.ui.screens.ArtistDetailScreen
 import com.example.vinilos.ui.screens.ArtistsScreen
 import com.example.vinilos.ui.screens.CollectorsScreen
 import com.example.vinilos.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.viewmodels.AlbumViewModel
 import com.example.vinilos.viewmodels.AlbumDetailViewModelFactory
+import com.example.vinilos.viewmodels.ArtistDetailViewModel
+import com.example.vinilos.viewmodels.ArtistDetailViewModelFactory
 import com.example.vinilos.viewmodels.ArtistViewModel
 import com.example.vinilos.viewmodels.ArtistViewModelFactory
 
@@ -27,6 +30,9 @@ sealed class Screen(val route: String) {
         fun createRoute(albumId: Int) = "album_detail/$albumId"
     }
     object Artists : Screen("artists")
+    object ArtistDetail : Screen("artist_detail/{artistId}") {
+        fun createRoute(artistId: Int) = "artist_detail/$artistId"
+    }
     object Collectors : Screen("collectors")
 }
 
@@ -80,7 +86,24 @@ fun AppNavigation() {
                     navigateToTab(navController, tab)
                 },
                 onArtistClick = { artist ->
+                    navController.navigate(Screen.ArtistDetail.createRoute(artist.id))
                 }
+            )
+        }
+
+        composable(
+            route = Screen.ArtistDetail.route,
+            arguments = listOf(navArgument("artistId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val artistId = backStackEntry.arguments?.getInt("artistId") ?: return@composable
+            val artistDetailViewModel: ArtistDetailViewModel = viewModel(
+                factory = ArtistDetailViewModelFactory(ArtistRepository(RetrofitInstance.apiService))
+            )
+
+            ArtistDetailScreen(
+                viewModel = artistDetailViewModel,
+                artistId = artistId,
+                onBackClick = { navController.popBackStack() }
             )
         }
 
