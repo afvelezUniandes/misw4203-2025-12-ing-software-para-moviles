@@ -14,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 @Composable
 fun CircleIcon() {
     Icon(
-        painter = painterResource(R.drawable.icono),
+        painter = painterResource(R.drawable.app_icon_round),
         contentDescription = "Icono",
         tint = Color.Unspecified,
         modifier = Modifier
