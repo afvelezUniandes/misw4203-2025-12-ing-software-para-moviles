@@ -16,22 +16,29 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
             val response = apiService.getMusicians()
             if (response.isSuccessful) {
                 val musicians = response.body() ?: emptyList()
-                Result.success(musicians.map { musician ->
-                    Musician(
-                        id = musician.id,
-                        name = musician.name,
-                        image = musician.image,
-                        description = musician.description,
-                        birthDate = musician.birthDate,
-                        albums = musician.albums,
-                        performerPrizes = musician.performerPrizes.map {
-                            PerformerPrize(
-                                id = it.id,
-                                premiationDate = it.premiationDate
-                            )
-                        }
+
+                val result = ArrayList<Musician>(musicians.size)
+                var performerPrizes: List<PerformerPrize>
+
+                for (musician in musicians) {
+
+                    performerPrizes = musician.performerPrizes.map {
+                        PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+                    }
+
+                    result.add(
+                        Musician(
+                            id = musician.id,
+                            name = musician.name,
+                            image = musician.image,
+                            description = musician.description,
+                            birthDate = musician.birthDate,
+                            albums = musician.albums,
+                            performerPrizes = performerPrizes
+                        )
                     )
-                })
+                }
+                Result.success(result)
             } else {
                 Result.failure(Exception("Error HTTP ${response.code()}: ${response.message()}"))
             }
@@ -49,15 +56,21 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
             val response = apiService.getBands()
             if (response.isSuccessful) {
                 val bands = response.body() ?: emptyList()
-                Result.success(bands.map { band ->
-                    Band(
-                        id = band.id,
-                        name = band.name,
-                        image = band.image,
-                        description = band.description,
-                        creationDate = band.creationDate,
-                        albums = band.albums,
-                        musicians = band.musicians.map { musician ->
+
+                val result = ArrayList<Band>(bands.size)
+                var bandMusicians: List<Musician>
+                var musicianPrizes: List<PerformerPrize>
+                var bandPrizes: List<PerformerPrize>
+
+                for (band in bands) {
+
+                    bandMusicians = ArrayList<Musician>(band.musicians.size)
+                    for (musician in band.musicians) {
+                        musicianPrizes = musician.performerPrizes.map {
+                            PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+                        }
+
+                        bandMusicians.add(
                             Musician(
                                 id = musician.id,
                                 name = musician.name,
@@ -65,22 +78,29 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
                                 description = musician.description,
                                 birthDate = musician.birthDate,
                                 albums = musician.albums,
-                                performerPrizes = musician.performerPrizes.map {
-                                    PerformerPrize(
-                                        id = it.id,
-                                        premiationDate = it.premiationDate
-                                    )
-                                }
+                                performerPrizes = musicianPrizes
                             )
-                        },
-                        performerPrizes = band.performerPrizes.map {
-                            PerformerPrize(
-                                id = it.id,
-                                premiationDate = it.premiationDate
-                            )
-                        }
+                        )
+                    }
+
+                    bandPrizes = band.performerPrizes.map {
+                        PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+                    }
+
+                    result.add(
+                        Band(
+                            id = band.id,
+                            name = band.name,
+                            image = band.image,
+                            description = band.description,
+                            creationDate = band.creationDate,
+                            albums = band.albums,
+                            musicians = bandMusicians,
+                            performerPrizes = bandPrizes
+                        )
                     )
-                })
+                }
+                Result.success(result)
             } else {
                 Result.failure(Exception("Error HTTP ${response.code()}: ${response.message()}"))
             }
@@ -95,23 +115,23 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
 
     override suspend fun getMusicianById(id: Int): Result<Musician> = withContext(Dispatchers.IO) {
         try {
-                val musician = apiService.getMusicianById(id)
-                Result.success(
-                    Musician(
-                        id = musician.id,
-                        name = musician.name,
-                        image = musician.image,
-                        description = musician.description,
-                        birthDate = musician.birthDate,
-                        albums = musician.albums,
-                        performerPrizes = musician.performerPrizes.map {
-                            PerformerPrize(
-                                id = it.id,
-                                premiationDate = it.premiationDate
-                            )
-                        }
-                    )
+            val musician = apiService.getMusicianById(id)
+
+            val performerPrizes = musician.performerPrizes.map {
+                PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+            }
+
+            Result.success(
+                Musician(
+                    id = musician.id,
+                    name = musician.name,
+                    image = musician.image,
+                    description = musician.description,
+                    birthDate = musician.birthDate,
+                    albums = musician.albums,
+                    performerPrizes = performerPrizes
                 )
+            )
         } catch (e: IOException) {
             Result.failure(Exception("Error de red o servidor: ${e.message}", e))
         } catch (e: HttpException) {
@@ -123,39 +143,45 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
 
     override suspend fun getBandById(id: Int): Result<Band> = withContext(Dispatchers.IO) {
         try {
-                val band = apiService.getBandById(id)
-                Result.success(
-                    Band(
-                        id = band.id,
-                        name = band.name,
-                        image = band.image,
-                        description = band.description,
-                        creationDate = band.creationDate,
-                        albums = band.albums,
-                        musicians = band.musicians.map { musician ->
-                            Musician(
-                                id = musician.id,
-                                name = musician.name,
-                                image = musician.image,
-                                description = musician.description,
-                                birthDate = musician.birthDate,
-                                albums = musician.albums,
-                                performerPrizes = musician.performerPrizes.map {
-                                    PerformerPrize(
-                                        id = it.id,
-                                        premiationDate = it.premiationDate
-                                    )
-                                }
-                            )
-                        },
-                        performerPrizes = band.performerPrizes.map {
-                            PerformerPrize(
-                                id = it.id,
-                                premiationDate = it.premiationDate
-                            )
-                        }
+            val band = apiService.getBandById(id)
+
+            val bandMusicians = ArrayList<Musician>(band.musicians.size)
+            var musicianPrizes: List<PerformerPrize>
+
+            for (musician in band.musicians) {
+                musicianPrizes = musician.performerPrizes.map {
+                    PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+                }
+
+                bandMusicians.add(
+                    Musician(
+                        id = musician.id,
+                        name = musician.name,
+                        image = musician.image,
+                        description = musician.description,
+                        birthDate = musician.birthDate,
+                        albums = musician.albums,
+                        performerPrizes = musicianPrizes
                     )
                 )
+            }
+
+            val bandPrizes = band.performerPrizes.map {
+                PerformerPrize(id = it.id, premiationDate = it.premiationDate)
+            }
+
+            Result.success(
+                Band(
+                    id = band.id,
+                    name = band.name,
+                    image = band.image,
+                    description = band.description,
+                    creationDate = band.creationDate,
+                    albums = band.albums,
+                    musicians = bandMusicians,
+                    performerPrizes = bandPrizes
+                )
+            )
         } catch (e: IOException) {
             Result.failure(Exception("Error de red o servidor: ${e.message}", e))
         } catch (e: HttpException) {
@@ -165,3 +191,4 @@ class RetrofitArtistServiceAdapter : ArtistServiceAdapter {
         }
     }
 }
+
