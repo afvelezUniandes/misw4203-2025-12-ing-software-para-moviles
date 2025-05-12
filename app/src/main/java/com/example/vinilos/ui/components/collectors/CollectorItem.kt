@@ -27,6 +27,8 @@ import com.example.vinilos.models.Collector
 import com.example.vinilos.ui.theme.CoveDarkBlue
 import com.example.vinilos.ui.theme.CoveLightBlue
 import com.example.vinilos.ui.theme.CoveOrange
+import androidx.compose.ui.platform.testTag
+
 
 @Composable
 fun CollectorItem(
@@ -37,6 +39,7 @@ fun CollectorItem(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .testTag("collector_item")
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.medium,
