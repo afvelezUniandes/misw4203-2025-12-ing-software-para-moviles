@@ -28,8 +28,7 @@ class RetrofitAlbumServiceAdapter : AlbumServiceAdapter {
 
     override suspend fun getAlbumById(id: Int): Result<Album> = withContext(Dispatchers.IO) {
         try {
-            val album = apiService.getAlbumById(id)
-            Result.success(album)
+            Result.success(apiService.getAlbumById(id))
         } catch (e: IOException) {
             Result.failure(Exception("Error de red o servidor: ${e.message}", e))
         } catch (e: Exception) {
