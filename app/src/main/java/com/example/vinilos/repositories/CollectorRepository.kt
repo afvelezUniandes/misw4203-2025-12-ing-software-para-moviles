@@ -11,8 +11,4 @@ class CollectorRepository(
         val result = serviceAdapter.getCollectors()
         return result.getOrElse { throw it }
     }
-
-    suspend fun getCollectorById(id: Int): Result<Collector> {
-        return serviceAdapter.getCollectorById(id)
-    }
 }

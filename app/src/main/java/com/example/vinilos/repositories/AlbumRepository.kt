@@ -1,7 +1,6 @@
 package com.example.vinilos.repositories
 
 import com.example.vinilos.models.Album
-import com.example.vinilos.models.Track
 import com.example.vinilos.network.adapter.AlbumServiceAdapter
 import com.example.vinilos.network.adapter.RetrofitAlbumServiceAdapter
 

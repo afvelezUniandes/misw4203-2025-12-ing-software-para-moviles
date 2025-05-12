@@ -1,4 +1,3 @@
-// com.example.vinilos.ui.components.collectors.CollectorsList.kt
 package com.example.vinilos.ui.components.collectors
 
 import androidx.compose.foundation.layout.Box
