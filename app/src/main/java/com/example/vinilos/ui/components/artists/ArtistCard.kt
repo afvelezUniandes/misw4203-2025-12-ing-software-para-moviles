@@ -26,6 +26,7 @@ import com.example.vinilos.models.Artist
 import com.example.vinilos.ui.theme.CoveDarkBlue
 import com.example.vinilos.ui.theme.CoveLightBlue
 import com.example.vinilos.ui.theme.CoveOrange
+import androidx.compose.ui.platform.testTag
 
 @Composable
 fun ArtistCard(
@@ -36,6 +37,7 @@ fun ArtistCard(
     Card(
         modifier = modifier
             .fillMaxWidth()
+            .testTag("artist_item")
             .clickable(onClick = onClick),
         elevation = CardDefaults.cardElevation(2.dp),
         shape = MaterialTheme.shapes.medium,

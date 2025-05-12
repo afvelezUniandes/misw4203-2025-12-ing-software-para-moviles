@@ -28,8 +28,7 @@ class RetrofitCollectorServiceAdapter : CollectorServiceAdapter {
 
     override suspend fun getCollectorById(id: Int): Result<Collector> = withContext(Dispatchers.IO) {
         try {
-            val collector = apiService.getCollectorById(id)
-            Result.success(collector)
+            Result.success(apiService.getCollectorById(id))
         } catch (e: IOException) {
             Result.failure(Exception("Error de red o servidor: ${e.message}", e))
         } catch (e: Exception) {
@@ -37,3 +36,4 @@ class RetrofitCollectorServiceAdapter : CollectorServiceAdapter {
         }
     }
 }
+

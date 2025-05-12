@@ -8,7 +8,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.vinilos.network.RetrofitInstance
 import com.example.vinilos.repositories.AlbumRepository
 import com.example.vinilos.repositories.ArtistRepository
 import com.example.vinilos.repositories.CollectorRepository
@@ -37,9 +36,6 @@ sealed class Screen(val route: String) {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
     }
     object Collectors : Screen("collectors")
-    object CollectorDetail : Screen("collector_detail/{collectorId}") {
-        fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
-    }
 
 }
 
@@ -62,7 +58,7 @@ fun AppNavigation() {
                     navController.navigate(Screen.AlbumDetail.createRoute(album.id))
                 },
                 onAddAlbumClick = {
-                    // Implementar navegación a la pantalla de agregar álbum
+
                 }
             )
         }
@@ -140,13 +136,10 @@ private fun navigateToTab(navController: NavHostController, tab: NavigationTab) 
     }
 
     navController.navigate(route) {
-        // Pop hasta la ruta de inicio y evita múltiples copias de la misma destinación en la pila
         popUpTo(navController.graph.startDestinationId) {
             saveState = true
         }
-        // Evita múltiples copias de la misma destinación
         launchSingleTop = true
-        // Restaura el estado cuando se vuelve a la destinación
         restoreState = true
     }
 }

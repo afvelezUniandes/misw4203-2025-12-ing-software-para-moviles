@@ -31,7 +31,7 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
             _error.value = null
 
             try {
-                val result = repository.getAlbums()
+                val result = repository.getAlbumsAsList()
                 _albums.value = result
             } catch (e: Exception) {
                 _error.value = e.message ?: "Error al cargar los álbumes"

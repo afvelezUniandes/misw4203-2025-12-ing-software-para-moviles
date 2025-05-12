@@ -25,7 +25,7 @@ class AlbumListTest {
         // Verificamos que se muestra al menos un álbum
         val nodes = composeTestRule.onAllNodesWithContentDescription(label = "Portada de", substring = true)
             .fetchSemanticsNodes()
-        assert(nodes.size >= 1) { "Se esperaba al menos 1 álbum, pero se encontraron ${nodes.size}" }
+        assert(nodes.isNotEmpty()) { "Se esperaba al menos 1 álbum, pero se encontraron ${nodes.size}" }
 
         // Verificamos que no hay error en la pantalla
         composeTestRule.onNodeWithText("Error").assertDoesNotExist()

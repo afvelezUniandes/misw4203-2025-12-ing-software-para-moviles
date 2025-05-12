@@ -14,6 +14,9 @@ VinylWave es una aplicación móvil para Android que permite explorar y gestiona
 ## ✨ Características
 - 📋 Visualización de lista de álbumes
 - 📊 Detalles de cada álbum
+- 📋 Visualización de lista de artistas
+- 📊 Detalles de cada artista 
+- 📋 Visualización de lista de coleccionistas
 
 ## 🛠️ Requisitos del sistema
 
@@ -32,6 +35,11 @@ VinylWave es una aplicación móvil para Android que permite explorar y gestiona
 git clone https://github.com/usuario/misw4203-2025-12-ing-software-para-moviles.git
 cd misw4203-2025-12-ing-software-para-moviles
 ```
+## 📥 Descarga del APK
+
+Puedes descargar la última versión del APK directamente desde el repositorio:
+
+- El archivo APK de la aplicación se encuentra en la carpeta release del repositorio. Para instalar la aplicación en tu dispositivo Android, navega a esta carpeta y transfiere el archivo release1.apk a tu dispositivo.
 
 ## ⚙️ Configuración del servidor backend
 
