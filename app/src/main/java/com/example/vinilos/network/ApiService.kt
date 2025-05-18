@@ -4,6 +4,8 @@ import com.example.vinilos.models.*
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.POST
 
 interface ApiService {
     @GET("albums")
@@ -11,6 +13,9 @@ interface ApiService {
 
     @GET("albums/{id}")
     suspend fun getAlbumById(@Path("id") id: Int): Album
+
+    @POST("albums")
+    suspend fun createAlbum(@Body albumDTO: AlbumDTO): Response<Album>
 
     @GET("musicians")
     suspend fun getMusicians(): Response<List<Musician>>

@@ -1,6 +1,7 @@
 package com.example.vinilos.network.adapter
 
 import com.example.vinilos.models.Album
+import com.example.vinilos.models.AlbumDTO
 import com.example.vinilos.network.ApiService
 import com.example.vinilos.network.RetrofitInstance
 import kotlinx.coroutines.Dispatchers
@@ -35,4 +36,20 @@ class RetrofitAlbumServiceAdapter : AlbumServiceAdapter {
             Result.failure(Exception("Error al obtener el álbum: ${e.message}", e))
         }
     }
+
+    override suspend fun createAlbum(albumDTO: AlbumDTO): Result<Album> = withContext(Dispatchers.IO) {
+        try {
+            val response = apiService.createAlbum(albumDTO)
+            if (response.isSuccessful) {
+                Result.success(response.body() ?: throw Exception("Respuesta vacía del servidor"))
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: IOException) {
+            Result.failure(Exception("Error de red o servidor: ${e.message}", e))
+        } catch (e: Exception) {
+            Result.failure(Exception("Error al crear el álbum: ${e.message}", e))
+        }
+    }
+
 }

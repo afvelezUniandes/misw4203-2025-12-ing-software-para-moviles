@@ -1,6 +1,7 @@
 package com.example.vinilos.ui.screens
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.example.vinilos.models.Album
@@ -22,6 +23,10 @@ fun AlbumsScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
+    LaunchedEffect(Unit) {
+        viewModel.refreshAlbums()
+    }
+
     AppScaffold(
         selectedTab = NavigationTab.ALBUMS,
         onTabSelected = onNavigateToTab,
@@ -36,4 +41,3 @@ fun AlbumsScreen(
         }
     }
 }
-
