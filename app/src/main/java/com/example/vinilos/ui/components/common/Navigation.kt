@@ -15,6 +15,7 @@ import com.example.vinilos.ui.screens.AlbumDetailScreen
 import com.example.vinilos.ui.screens.AlbumsScreen
 import com.example.vinilos.ui.screens.ArtistDetailScreen
 import com.example.vinilos.ui.screens.ArtistsScreen
+import com.example.vinilos.ui.screens.CollectorDetailScreen
 import com.example.vinilos.ui.screens.CollectorsScreen
 import com.example.vinilos.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.viewmodels.AlbumViewModel
@@ -23,6 +24,8 @@ import com.example.vinilos.viewmodels.ArtistDetailViewModel
 import com.example.vinilos.viewmodels.ArtistDetailViewModelFactory
 import com.example.vinilos.viewmodels.ArtistViewModel
 import com.example.vinilos.viewmodels.ArtistViewModelFactory
+import com.example.vinilos.viewmodels.CollectorDetailViewModel
+import com.example.vinilos.viewmodels.CollectorDetailViewModelFactory
 import com.example.vinilos.viewmodels.CollectorViewModel
 import com.example.vinilos.viewmodels.CollectorViewModelFactory
 
@@ -36,6 +39,9 @@ sealed class Screen(val route: String) {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
     }
     object Collectors : Screen("collectors")
+    object CollectorDetail : Screen("collector_detail/{collectorId}") {
+        fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
+    }
 
 }
 
@@ -121,10 +127,26 @@ fun AppNavigation() {
                     navigateToTab(navController, tab)
                 },
                 onCollectorClick = { collector ->
+                    navController.navigate(Screen.CollectorDetail.createRoute(collector.id))
                 }
             )
         }
 
+        composable(
+            route = Screen.CollectorDetail.route,
+            arguments = listOf(navArgument("collectorId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val collectorId = backStackEntry.arguments?.getInt("collectorId") ?: return@composable
+            val collectorDetailViewModel: CollectorDetailViewModel = viewModel(
+                factory = CollectorDetailViewModelFactory(CollectorRepository())
+            )
+
+            CollectorDetailScreen(
+                viewModel = collectorDetailViewModel,
+                collectorId = collectorId,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
     }
 }
 
