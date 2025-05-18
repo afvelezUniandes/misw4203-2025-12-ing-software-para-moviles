@@ -17,6 +17,7 @@ import com.example.vinilos.ui.screens.ArtistDetailScreen
 import com.example.vinilos.ui.screens.ArtistsScreen
 import com.example.vinilos.ui.screens.CollectorDetailScreen
 import com.example.vinilos.ui.screens.CollectorsScreen
+import com.example.vinilos.ui.screens.CreateAlbumScreen
 import com.example.vinilos.viewmodels.AlbumDetailViewModel
 import com.example.vinilos.viewmodels.AlbumViewModel
 import com.example.vinilos.viewmodels.AlbumDetailViewModelFactory
@@ -28,12 +29,14 @@ import com.example.vinilos.viewmodels.CollectorDetailViewModel
 import com.example.vinilos.viewmodels.CollectorDetailViewModelFactory
 import com.example.vinilos.viewmodels.CollectorViewModel
 import com.example.vinilos.viewmodels.CollectorViewModelFactory
+import com.example.vinilos.viewmodels.CreateAlbumViewModel
 
 sealed class Screen(val route: String) {
     object Albums : Screen("albums")
     object AlbumDetail : Screen("album_detail/{albumId}") {
         fun createRoute(albumId: Int) = "album_detail/$albumId"
     }
+    object CreateAlbum : Screen("create_album")
     object Artists : Screen("artists")
     object ArtistDetail : Screen("artist_detail/{artistId}") {
         fun createRoute(artistId: Int) = "artist_detail/$artistId"
@@ -42,7 +45,6 @@ sealed class Screen(val route: String) {
     object CollectorDetail : Screen("collector_detail/{collectorId}") {
         fun createRoute(collectorId: Int) = "collector_detail/$collectorId"
     }
-
 }
 
 @Composable
@@ -57,14 +59,19 @@ fun AppNavigation() {
             val viewModel: AlbumViewModel = viewModel()
             AlbumsScreen(
                 viewModel = viewModel,
-                onNavigateToTab = { tab ->
-                    navigateToTab(navController, tab)
-                },
-                onAlbumClick = { album ->
-                    navController.navigate(Screen.AlbumDetail.createRoute(album.id))
-                },
-                onAddAlbumClick = {
+                onNavigateToTab = { tab -> navigateToTab(navController, tab)},
+                onAlbumClick = { album -> navController.navigate(Screen.AlbumDetail.createRoute(album.id))},
+                onAddAlbumClick = { navController.navigate(Screen.CreateAlbum.route) }
+            )
+        }
 
+        composable(Screen.CreateAlbum.route) {
+            val createAlbumViewModel: CreateAlbumViewModel = viewModel()
+            CreateAlbumScreen(
+                viewModel = createAlbumViewModel,
+                onBackClick = { navController.popBackStack() },
+                onAlbumCreated = {
+                    navController.popBackStack()
                 }
             )
         }

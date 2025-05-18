@@ -62,7 +62,6 @@ fun AlbumCard(
                 modifier = Modifier.fillMaxSize()
             )
 
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -86,7 +85,11 @@ fun AlbumCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = album.performers.first().name,
+                    text = if (album.performers.isNotEmpty()) {
+                        album.performers.first().name
+                    } else {
+                        "Sin intérpretes"
+                    },
                     color = Color.White,
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),

@@ -1,6 +1,7 @@
 package com.example.vinilos.repositories
 
 import com.example.vinilos.models.Album
+import com.example.vinilos.models.AlbumDTO
 import com.example.vinilos.network.adapter.AlbumServiceAdapter
 import com.example.vinilos.network.adapter.RetrofitAlbumServiceAdapter
 import com.example.vinilos.network.cache.CacheManager
@@ -44,6 +45,14 @@ class AlbumRepository(
                 result.getOrNull()?.let { album ->
                     cacheManager.addAlbum(id, album)
                 }
+            }
+        }
+    }
+
+    suspend fun createAlbum(albumDTO: AlbumDTO): Result<Album> {
+        return serviceAdapter.createAlbum(albumDTO).also { result ->
+            if (result.isSuccess) {
+                cacheManager.clearAlbumsCache()
             }
         }
     }

@@ -25,6 +25,10 @@ class AlbumViewModel(application: Application) : AndroidViewModel(application) {
         loadAlbums()
     }
 
+    fun refreshAlbums() {
+        loadAlbums()
+    }
+
     fun loadAlbums() {
         viewModelScope.launch {
             _isLoading.value = true
