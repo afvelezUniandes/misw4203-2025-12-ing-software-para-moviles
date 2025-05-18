@@ -16,32 +16,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.example.vinilos.ui.components.albums.AlbumDetailContent
+import com.example.vinilos.repositories.AlbumRepository
+import com.example.vinilos.ui.components.collectors.CollectorDetailContent
 import com.example.vinilos.ui.components.common.ErrorScreen
 import com.example.vinilos.ui.components.common.LoadingScreen
-import com.example.vinilos.viewmodels.AlbumDetailViewModel
+import com.example.vinilos.viewmodels.CollectorDetailViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AlbumDetailScreen(
-    viewModel: AlbumDetailViewModel,
-    albumId: Int,
+fun CollectorDetailScreen(
+    viewModel: CollectorDetailViewModel,
+    collectorId: Int,
     onBackClick: () -> Unit
 ) {
-    val album by viewModel.album.collectAsState()
+    val collector by viewModel.collector.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val error by viewModel.error.collectAsState()
 
-    LaunchedEffect(albumId) {
-        viewModel.loadAlbumDetail(albumId)
+    val albumRepository = remember { AlbumRepository() }
+
+    LaunchedEffect(collectorId) {
+        viewModel.loadCollectorDetail(collectorId)
     }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Detalle de Álbum", color = Color.White) },
+                title = { Text("Detalle de Coleccionista", color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
@@ -66,14 +70,15 @@ fun AlbumDetailScreen(
             when {
                 isLoading -> LoadingScreen()
                 error != null -> ErrorScreen(message = error ?: "Error desconocido") {
-                    viewModel.loadAlbumDetail(albumId)
+                    viewModel.loadCollectorDetail(collectorId)
                 }
-                album != null -> AlbumDetailContent(
-                    album = album!!,
-                    onAddTrack = { name, duration ->
-                        viewModel.addTrack(albumId, name, duration)
-                    }
-                )
+
+                collector != null -> {
+                    CollectorDetailContent(
+                        collector = collector!!,
+                        albumRepository = albumRepository
+                    )
+                }
             }
         }
     }
