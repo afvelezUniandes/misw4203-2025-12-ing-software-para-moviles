@@ -1,7 +1,6 @@
 package com.example.vinilos.repositories
 
-import com.example.vinilos.models.Album
-import com.example.vinilos.models.AlbumDTO
+import com.example.vinilos.models.*
 import com.example.vinilos.network.adapter.AlbumServiceAdapter
 import com.example.vinilos.network.adapter.RetrofitAlbumServiceAdapter
 import com.example.vinilos.network.cache.CacheManager
@@ -56,5 +55,14 @@ class AlbumRepository(
             }
         }
     }
+
+    suspend fun addTrackToAlbum(albumId: Int, trackDTO: TrackDTO): Result<Track> {
+        return serviceAdapter.addTrackToAlbum(albumId, trackDTO).also { result ->
+            if (result.isSuccess) {
+                cacheManager.clearAlbumCache(albumId)
+            }
+        }
+    }
+
 }
 

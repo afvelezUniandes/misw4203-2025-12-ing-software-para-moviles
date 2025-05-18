@@ -24,6 +24,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -42,8 +46,10 @@ import java.util.Locale
 @Composable
 fun AlbumDetailContent(
     album: Album,
-    onAddTrackClick: () -> Unit
+    onAddTrack: (name: String, duration: String) -> Unit
 ) {
+    var showAddTrackDialog by remember { mutableStateOf(false) }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -56,7 +62,7 @@ fun AlbumDetailContent(
         }
 
         item {
-            TracksHeader(onAddTrackClick)
+            TracksHeader { showAddTrackDialog = true }
         }
 
         items(album.tracks.take(5)) { track ->
@@ -75,6 +81,12 @@ fun AlbumDetailContent(
             }
         }
     }
+
+    AddTrackDialog(
+        showDialog = showAddTrackDialog,
+        onDismiss = { showAddTrackDialog = false },
+        onAddTrack = onAddTrack
+    )
 }
 
 @Composable
@@ -247,6 +259,27 @@ fun ViewAllTracksButton(totalTracks: Int) {
 }
 
 private fun calculateTotalDuration(tracks: List<Track>): String {
-    val totalMinutes = tracks.size * 3
-    return "${totalMinutes}:${String.format(Locale.getDefault(), "%02d", 23)} min"
+    var totalMinutes = 0
+    var totalSeconds = 0
+
+    for (track in tracks) {
+        val parts = track.duration.split(":")
+        if (parts.size == 2) {
+            try {
+                val minutes = parts[0].toInt()
+                val seconds = parts[1].toInt()
+
+                totalMinutes += minutes
+                totalSeconds += seconds
+            } catch (e: NumberFormatException) {
+                continue
+            }
+        }
+    }
+
+    totalMinutes += totalSeconds / 60
+    totalSeconds %= 60
+
+    return "${totalMinutes}:${String.format(Locale.getDefault(), "%02d", totalSeconds)} min"
 }
+
