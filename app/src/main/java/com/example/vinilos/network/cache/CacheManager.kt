@@ -53,9 +53,14 @@ class CacheManager private constructor() {
         albumsCache.remove(cacheKey)
     }
 
+
     fun getAlbumById(id: Int): Album? {
         val entry = albumByIdCache[id]
         return if (entry != null && entry.isValid()) entry.data else null
+    }
+
+    fun clearAlbumCache(id: Int) {
+        albumByIdCache.remove(id)
     }
 
     fun addAlbum(id: Int, album: Album) {

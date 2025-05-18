@@ -17,6 +17,9 @@ interface ApiService {
     @POST("albums")
     suspend fun createAlbum(@Body albumDTO: AlbumDTO): Response<Album>
 
+    @POST("albums/{albumId}/tracks")
+    suspend fun addTrackToAlbum(@Path("albumId") albumId: Int, @Body track: TrackDTO): Track
+
     @GET("musicians")
     suspend fun getMusicians(): Response<List<Musician>>
 

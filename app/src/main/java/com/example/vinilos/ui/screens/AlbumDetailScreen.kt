@@ -70,7 +70,9 @@ fun AlbumDetailScreen(
                 }
                 album != null -> AlbumDetailContent(
                     album = album!!,
-                    onAddTrackClick = { }
+                    onAddTrack = { name, duration ->
+                        viewModel.addTrack(albumId, name, duration)
+                    }
                 )
             }
         }
