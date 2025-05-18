@@ -26,6 +26,7 @@ class CacheManager private constructor() {
     private val bandsCache = ArrayMap<String, CacheEntry<List<Band>>>()
 
     private val collectorsCache = ArrayMap<String, CacheEntry<List<Collector>>>()
+    private val collectorByIdCache = ArrayMap<Int, CacheEntry<Collector>>()
 
     private data class CacheEntry<T>(
         val data: T,
@@ -82,6 +83,15 @@ class CacheManager private constructor() {
         val cacheKey = "all_collectors"
         val entry = collectorsCache[cacheKey]
         return if (entry != null && entry.isValid()) entry.data else null
+    }
+
+    fun getCollectorById(id: Int): Collector? {
+        val entry = collectorByIdCache[id]
+        return if (entry != null && entry.isValid()) entry.data else null
+    }
+
+    fun addCollector(id: Int, collector: Collector) {
+        collectorByIdCache[id] = CacheEntry(collector)
     }
 
     fun addCollectors(collectors: List<Collector>) {

@@ -23,4 +23,22 @@ class CollectorRepository(
             cacheManager.addCollectors(collectors)
         }
     }
+
+    suspend fun getCollectorById(id: Int): Result<Collector> {
+
+        cacheManager.getCollectorById(id)?.let { collector ->
+            return Result.success(collector)
+        }
+
+        val result = serviceAdapter.getCollectorById(id)
+
+        if (result.isSuccess) {
+            result.getOrNull()?.let { collector ->
+                cacheManager.addCollector(id, collector)
+            }
+        }
+
+        return result
+    }
+
 }
